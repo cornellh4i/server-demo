@@ -10,7 +10,7 @@ const messageRouter = Router();
 
 messageRouter.get("/", async (req, res) => {
   // #swagger.tags = ['Message']
-  res.status(200).send(await MessageController.getMessage());
+  res.status(200).json({message: await MessageController.getMessage()});
 });
 
 messageRouter.put("/update", async (req, res) => {
