@@ -3,12 +3,16 @@ import { promises as fs } from "fs";
 import path from "path";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const dataFile = path.join(process.cwd(), "data/display.json");
+  const dataFile = "/tmp/display.json";
   if (req.method === "GET") {
-    const content = await fs.readFile(dataFile, "utf-8");
+    try {
+      const content = await fs.readFile(dataFile, "utf-8");
 
-    const message = JSON.parse(content);
-    res.json(message);
+      const message = JSON.parse(content);
+      res.json(message);
+    } catch (e) {
+      res.json({ message: "pull failed" });
+    }
   } else if (req.method === "PUT") {
     const { message } = req.body;
     const toWrite = JSON.stringify({ message: message });

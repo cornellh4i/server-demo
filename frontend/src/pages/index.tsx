@@ -2,10 +2,23 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 const Home = () => {
+  const [message, setMessage] = useState("Loading...");
+
+  const getMessage = async () => {
+    const res = await fetch("/api/val");
+    setMessage((await res.json()).message)
+  }
+
+  useEffect(() => {
+    const intervalId = setInterval(getMessage, 10);
+    return () => clearInterval(intervalId);
+  }, [])
+
   return (
     <>
       <Head>
@@ -16,7 +29,7 @@ const Home = () => {
       </Head>
       <main className={styles.main}>
         <div className={styles.center}>
-          <h1>Message: hi</h1>
+          <h1>Message: {message}</h1>
         </div>
       </main>
     </>
