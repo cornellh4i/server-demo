@@ -10,12 +10,12 @@ const Home = () => {
   const [message, setMessage] = useState("Loading...");
 
   const getMessage = async () => {
-    const res = await fetch("/api/val");
+    const res = await fetch(`${process.env.SERVER}/message/`);
     setMessage((await res.json()).message)
   }
 
   useEffect(() => {
-    const intervalId = setInterval(getMessage, 10);
+    const intervalId = setInterval(getMessage, 1000);
     return () => clearInterval(intervalId);
   }, [])
 
